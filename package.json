@@ -1,0 +1,22 @@
+{
+  "name": "aws-serverless-s3-site",
+  "description": "AWS static website calling a lambda function URL example using the serverless framework",
+  "version": "1.0.0",
+  "license": "MIT-0",
+  "scripts": {
+    "localGetTest": "sls invoke local --function hellolambda --path test/getHello.json ",
+    "localPostTest": "sls invoke local --function hellolambda --path test/postHello.json ",
+    "localDeleteTest": "sls invoke local --function hellolambda --path test/deleteHello.json "
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WayneGreeley/aws-serverless-s3-site.git"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.259.0",
+    "serverless-bundle": "^6.0.0",
+    "serverless-prune-plugin": "^2.0.1",
+    "serverless-s3-sync": "^3.1.0",
+    "uuid": "^9.0.0"
+  }
+}

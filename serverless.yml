@@ -1,0 +1,59 @@
+service: aws-serverless-s3-site
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  architecture: arm64 
+  stage: ${opt:stage, "dev"} # Default stage to "dev"
+  region: ${opt:region, "us-east-1"} # Default region to "us-east-1"
+  memorySize: 256 # Default lambda memory size
+  timeout: 10 # Default lambda timeout
+
+plugins:
+  - serverless-s3-sync
+  - serverless-bundle
+  - serverless-prune-plugin
+
+package:
+  individually: true
+  
+custom:
+  prune:
+    automatic: true
+    number: 1
+  s3Sync:
+    - bucketName: aws-serverless-s3-site-bucket-name-2023-01-28
+      localDir: website/
+      acl: public-read
+
+functions:
+  myLambdaFunction:
+    handler: index.handler
+    url: 
+      cors:
+        allowedOrigins:
+          - https://aws-serverless-s3-site-bucket-name-2023-01-28.s3.amazonaws.com
+        allowedMethods:
+          - POST
+
+resources:
+  Resources:
+    WebsiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: aws-serverless-s3-site-bucket-name-2023-01-28
+        AccessControl: PublicRead
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: error.html
+    VisitorsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: "website-visitors"
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
