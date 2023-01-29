@@ -11,12 +11,13 @@ exports.handler = async (event) => {
   const params = {
     TableName: "website-visitors",
     Item: {
-      id: uuidv4(),
-      name: data.name,
-      email: data.email,
-      createdAt: Date.now().toLocaleString()
+      id: { S: uuidv4()},
+      name: { S: data.name},
+      email: { S: data.email},
+      createdAt: { S: Date.now().toString()}
     }
   };
+  console.log(params);
 
   try {
     const client = new DynamoDBClient();

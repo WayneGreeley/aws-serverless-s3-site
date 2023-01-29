@@ -20,12 +20,13 @@
             event.preventDefault();
             var formData = new FormData(form);
             var jsonData = JSON.stringify(Object.fromEntries(formData));
-            fetch("https://3mflbfq6ubmco2gvf6m2i2w4pe0nijbt.lambda-url.us-east-1.on.aws/", {
+            fetch("https://aqdk3phgx3cxowptons2khspqu0vbrth.lambda-url.us-east-1.on.aws/", {
                 method: "POST",
                 body: jsonData,
                 headers: {
                     "Content-Type": "application/json"
-                }
+                },
+                //mode: "no-cors"
             })
             .then(response => response.json())
             .then(data => {

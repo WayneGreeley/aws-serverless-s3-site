@@ -8,6 +8,12 @@ provider:
   region: ${opt:region, "us-east-1"} # Default region to "us-east-1"
   memorySize: 256 # Default lambda memory size
   timeout: 10 # Default lambda timeout
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+      Resource:
+        - arn:aws:dynamodb:us-east-1:*:table/website-visitors
 
 plugins:
   - serverless-s3-sync
